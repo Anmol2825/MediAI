@@ -39,11 +39,11 @@ const Home = () => {
   };
   const dummyMedicineOptions = Array.from(
     { length: 132 },
-    (_, index) => `Disease ${index + 1}`,
+    (_, index) => `Symptoms ${index + 1}`,
   );
   const dummySpecialityOptions = Array.from(
     { length: 132 },
-    (_, index) => `Speciality ${index + 1}`,
+    (_, index) => `Symptoms ${index + 1}`,
   );
   return (
     <>
@@ -65,44 +65,18 @@ const Home = () => {
               style={styles.input}
               id="diseaseFilter"
             >
-              <option value="">Select a disease</option>
+              <option value="">Select your Symptom</option>
               {dummyMedicineOptions.map((option, index) => (
                 <option key={index} value={option}>
                   {option}
                 </option>
               ))}
             </select>
-            <select
-              onChange={handleSymptomsChange}
-              value={userSymptoms}
-              style={styles.input}
-              id="symptomsFilter"
-            >
-              <option value="">Select a speciality</option>
-              {dummySpecialityOptions.map((option, index) => (
-                <option key={index} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
             <button
               onClick={handleCheckAvailability}
               style={styles.filterButton}
             >
-              Select
-            </button>
-
-            <button
-              onClick={handleCheckAvailability}
-              style={styles.filterButton}
-            >
-              <Link
-                to="/ai"
-                className="anchor"
-                style={{ textDecoration: 'none', color: 'inherit' }}
-              >
-                AI Predictor
-              </Link>
+              Apply
             </button>
           </div>
 
@@ -129,14 +103,14 @@ const Home = () => {
             )}
           </div>
 
-          <div style={styles.doctorsList}>
+          {/* <div style={styles.doctorsList}>
             <h2>Available Doctors:</h2>
             <ul>
               {availableDoctors.map((doctor, index) => (
                 <li key={index}>{doctor}</li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

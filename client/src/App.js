@@ -19,6 +19,7 @@ import DoctorAppointments from './pages/Doctor/DoctorAppointments';
 import Start from './pages/Start';
 import ProfilePage from './pages/profile';
 import User from './pages/User';
+import Predictor from './pages/Predictor';
 
 function App() {
   const { loading } = useSelector(state => state.alerts);
@@ -60,6 +61,14 @@ function App() {
           element={
             <ProtectedRoute>
               <User />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/ai"
+          element={
+            <ProtectedRoute>
+              <Predictor />
             </ProtectedRoute>
           }
         />
