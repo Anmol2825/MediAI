@@ -20,6 +20,7 @@ import Start from './pages/Start';
 import ProfilePage from './pages/profile';
 import User from './pages/User';
 import Predictor from './pages/Predictor';
+import BookDoctor from './pages/BookDoctor';
 
 function App() {
   const { loading } = useSelector(state => state.alerts);
@@ -57,7 +58,7 @@ function App() {
           }
         />
         <Route
-          path="/home"
+          path="/user"
           element={
             <ProtectedRoute>
               <User />
@@ -77,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/bookDoctor"
+          element={
+            <ProtectedRoute>
+              <BookDoctor />
             </ProtectedRoute>
           }
         />

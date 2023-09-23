@@ -19,6 +19,7 @@ const Home = () => {
 
   const handleCheckAvailability = () => {
     const doctors = getAvailableDoctors(selectedDisease, userSymptoms);
+    console.log(doctors);
     setAvailableDoctors(doctors);
 
     // For simplicity, we'll just pick the first doctor for suggestion
@@ -27,30 +28,108 @@ const Home = () => {
     }
   };
 
-  const getAvailableDoctors = (disease, symptoms) => {
-    // Simulated available doctors based on disease or symptoms
-    // Replace this with actual logic to fetch doctors from your backend
-    return [
-      'Dr. John Doe',
-      'Dr. Jane Smith',
-      'Dr. Michael Johnson',
-      // ... more doctors
-    ];
+  const diseaseToDoctorMap = {
+    'Fungal Infection': ['Dr. John Doe', 'Dr. Jane Smith'],
+    Allergy: ['Dr. Michael Johnson', 'Dr. Sarah Brown'],
+    GERD: ['Dr. Emily White', 'Dr. Robert Lee', 'Dr. Mary Adams'],
+    'Chronic Cholestasis': [
+      'Dr. David Wilson',
+      'Dr. Laura Clark',
+      'Dr. Thomas Brown',
+    ],
+    'Drug Reaction': ['Dr. Sarah Taylor', 'Dr. James Smith'],
+    'Peptic Ulcer Disease': ['Dr. Olivia Martinez', 'Dr. Daniel Harris'],
+    AIDS: ['Dr. Maria Rodriguez', 'Dr. Kevin Anderson'],
+    Diabetes: ['Dr. Patricia Lewis', 'Dr. Christopher Walker'],
+    Gastroenteritis: [
+      'Dr. Jessica White',
+      'Dr. Brian Turner',
+      'Dr. Susan Hill',
+    ],
+    'Bronchial Asthma': [
+      'Dr. Matthew Martin',
+      'Dr. Laura Moore',
+      'Dr. Richard Clark',
+    ],
+    Hypertension: ['Dr. Kimberly King', 'Dr. William Wright'],
+    Migraine: ['Dr. Karen Brown', 'Dr. Joseph Taylor'],
+    'Cervical Spondylosis': ['Dr. Jennifer Scott', 'Dr. Timothy Thomas'],
+    'Paralysis (Brain Hemorrhage)': ['Dr. Susan Mitchell', 'Dr. Charles Adams'],
+    Jaundice: ['Dr. Amy Hall', 'Dr. Andrew Nelson'],
+    Malaria: ['Dr. Linda Harris', 'Dr. Benjamin White'],
+    'Chicken Pox': ['Dr. Lisa Davis', 'Dr. Stephen Turner'],
+    Dengue: ['Dr. Nancy Anderson', 'Dr. John Evans'],
+    Typhoid: ['Dr. Carol Parker', 'Dr. Mark Johnson'],
+    'Hepatitis A': ['Dr. Michelle Allen', 'Dr. Edward Martinez'],
+    'Hepatitis B': ['Dr. Sandra Wilson', 'Dr. Thomas Baker'],
+    'Hepatitis C': ['Dr. Pamela Young', 'Dr. Jeffrey Davis'],
+    'Hepatitis D': ['Dr. Elizabeth Garcia', 'Dr. Michael Hall'],
+    'Hepatitis E': ['Dr. Deborah Hernandez', 'Dr. David Allen'],
+    'Alcoholic Hepatitis': ['Dr. Susan Perez', 'Dr. Joseph Young'],
+    Tuberculosis: ['Dr. Barbara Taylor', 'Dr. Kenneth King'],
+    'Common Cold': ['Dr. Donna Harris', 'Dr. Jason Lewis'],
+    Pneumonia: ['Dr. Lisa Hernandez', 'Dr. Kevin Perez'],
+    'Dimorphic Hemorrhoids (Piles)': [
+      'Dr. Kimberly Baker',
+      'Dr. Karen Anderson',
+    ],
+    'Heart Attack': ['Dr. Jessica Walker', 'Dr. Jennifer Scott'],
+    'Varicose Veins': ['Dr. Emily Wilson', 'Dr. William Adams'],
+    Hypothyroidism: ['Dr. Sarah Lewis', 'Dr. Linda Carter'],
+    Hyperthyroidism: ['Dr. Maria Clark', 'Dr. Christopher Lee'],
+    Hypoglycemia: ['Dr. Patricia Thomas', 'Dr. Melissa Martinez'],
+    Osteoarthritis: ['Dr. Laura Turner', 'Dr. Daniel Wright'],
+    Arthritis: ['Dr. Susan Young', 'Dr. Robert Taylor'],
+    '(Vertigo) Paroxysmal Positional Vertigo': [
+      'Dr. Jennifer King',
+      'Dr. Brian Harris',
+    ],
+    Acne: ['Dr. Michelle Davis', 'Dr. Joseph Wilson'],
+    'Urinary Tract Infection': ['Dr. Karen Martinez', 'Dr. Charles Baker'],
+    Psoriasis: ['Dr. Kimberly Anderson', 'Dr. William Moore'],
+    Impetigo: ['Dr. Lisa White', 'Dr. Nancy Adams'],
   };
+
+  const specialityToDoctorMap = {
+    Cardiology: ['Dr. John Doe', 'Dr. Jane Smith'],
+    Dermatology: ['Dr. Michael Johnson', 'Dr. Sarah Brown'],
+    Orthopedics: ['Dr. Emily White', 'Dr. Robert Lee', 'Dr. Mary Adams'],
+    Pediatrics: ['Dr. David Wilson', 'Dr. Laura Clark', 'Dr. Thomas Brown'],
+    Neurology: ['Dr. Sarah Taylor', 'Dr. James Smith'],
+    Gynecology: ['Dr. Olivia Martinez', 'Dr. Daniel Harris'],
+    Ophthalmology: ['Dr. Maria Rodriguez', 'Dr. Kevin Anderson'],
+    Oncology: ['Dr. Patricia Lewis', 'Dr. Christopher Walker'],
+    Psychiatry: ['Dr. Jessica White', 'Dr. Brian Turner', 'Dr. Susan Hill'],
+    Urology: ['Dr. Matthew Martin', 'Dr. Laura Moore', 'Dr. Richard Clark'],
+  };
+
+  const getAvailableDoctors = (disease, symptoms) => {
+    // Check if the selected disease has a mapping, and return the corresponding doctors
+    if (diseaseToDoctorMap[disease]) {
+      return diseaseToDoctorMap[disease];
+    }
+
+    if (specialityToDoctorMap[symptoms]) {
+      return specialityToDoctorMap[symptoms];
+    }
+
+    // If no doctors are available for the selected disease, return an empty array
+    return [];
+  };
+  console.log(Object.keys(diseaseToDoctorMap));
   const dummyMedicineOptions = Array.from(
-    { length: 132 },
-    (_, index) => `Disease ${index + 1}`,
+    new Set(Object.keys(diseaseToDoctorMap)),
   );
   const dummySpecialityOptions = Array.from(
-    { length: 132 },
-    (_, index) => `Speciality ${index + 1}`,
+    new Set(Object.keys(specialityToDoctorMap)),
   );
+
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar" style={{ background: '#006262' }}>
         <div className="logo">
           <h2>
-            <b style={{ color: 'lightblue' }}>MediAi</b>
+            <b style={{ color: 'white' }}>MediAi</b>
           </h2>
         </div>
       </nav>
@@ -85,12 +164,6 @@ const Home = () => {
                 </option>
               ))}
             </select>
-            <button
-              onClick={handleCheckAvailability}
-              style={styles.filterButton}
-            >
-              Select
-            </button>
 
             <button
               onClick={handleCheckAvailability}
@@ -99,43 +172,37 @@ const Home = () => {
               <Link
                 to="/ai"
                 className="anchor"
-                style={{ textDecoration: 'none', color: 'inherit' }}
+                style={{ textDecoration: 'none', color: 'white' }}
               >
                 AI Predictor
               </Link>
             </button>
           </div>
-
           <div style={styles.needHelp}>
-            <h2 style={styles.needHelpHeading}>Need Help?</h2>
-            <textarea
-              rows="5"
-              cols="40"
-              placeholder="Enter your symptoms..."
-              value={userSymptoms}
-              onChange={handleSymptomsChange}
-              style={styles.textArea}
-            />
             <button
               onClick={handleCheckAvailability}
               style={styles.needHelpButton}
             >
-              Get Suggested Doctor
+              Get Suggested Doctors
             </button>
-            {suggestedDoctor && (
-              <p style={styles.suggestedDoctor}>
-                Suggested Doctor: {suggestedDoctor}
-              </p>
-            )}
-          </div>
 
-          <div style={styles.doctorsList}>
-            <h2>Available Doctors:</h2>
-            <ul>
-              {availableDoctors.map((doctor, index) => (
-                <li key={index}>{doctor}</li>
-              ))}
-            </ul>
+            {suggestedDoctor && (
+              <div style={styles.doctorsList}>
+                <h2>Available Doctors:</h2>
+                <ul>
+                  {availableDoctors.map((doctor, index) => (
+                    <li key={index}>{doctor}</li>
+                  ))}
+                </ul>
+                <Link
+                  to={`/bookDoctor?doctors=${JSON.stringify(
+                    availableDoctors,
+                  )}&specialtyOrDisease=${selectedDisease || userSymptoms}`}
+                >
+                  <button style={styles.bookDoctorButton}>Book Doctor</button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -144,6 +211,17 @@ const Home = () => {
 };
 
 const styles = {
+  bookDoctorButton: {
+    padding: '12px 30px',
+    fontSize: '1rem',
+    borderRadius: '8px',
+    border: 'none',
+    background: '#006262',
+    color: 'white',
+    cursor: 'pointer',
+    marginTop: '20px',
+    transition: 'background 0.3s ease',
+  },
   container: {
     display: 'flex',
     flexDirection: 'column',
@@ -187,6 +265,7 @@ const styles = {
     background: '#3498db',
     color: 'white',
     cursor: 'pointer',
+    background: '#006262',
     transition: 'background 0.3s ease',
   },
   needHelp: {
@@ -221,7 +300,7 @@ const styles = {
     fontSize: '1rem',
     borderRadius: '8px',
     border: 'none',
-    background: '#3498db',
+    background: '#006262',
     color: 'white',
     cursor: 'pointer',
     transition: 'background 0.3s ease',
